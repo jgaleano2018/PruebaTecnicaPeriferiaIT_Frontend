@@ -1,0 +1,67 @@
+<div class="feed-layout">
+  <aside class="feed-layout__side">
+    <app-post-composer
+      [maxLength]="maxLength"
+      [publishing]="store.publishing()"
+      [resetToken]="store.publishedCount()"
+      [now]="now()"
+      (submitted)="publish($event)"
+    />
+
+    @if (store.myRecentPosts().length > 0) {
+      <section class="recent" aria-labelledby="recent-title">
+        <h2 id="recent-title" class="section-title">Tus publicaciones recientes</h2>
+        @for (post of store.myRecentPosts(); track post.id) {
+          <app-post-card [post]="post" [now]="now()" />
+        }
+      </section>
+    }
+  </aside>
+
+  <section class="feed-layout__main" aria-labelledby="feed-title">
+    <header class="feed-header">
+      <h1 id="feed-title">Publicaciones</h1>
+      <span class="live" [class.live--on]="store.realtimeStatus() === 'connected'" role="status">
+        <span class="live__dot" aria-hidden="true"></span>{{ realtimeLabel() }}
+      </span>
+    </header>
+
+    @if (store.loading()) {
+      <div class="skeletons" aria-busy="true" aria-label="Cargando publicaciones">
+        @for (i of [1, 2, 3]; track i) {
+          <div class="skeleton"></div>
+        }
+      </div>
+    } @else if (store.error() && store.posts().length === 0) {
+      <div class="empty-state" role="alert">
+        <p>{{ store.error() }}</p>
+        <button type="button" class="btn btn--secondary" (click)="retry()">Reintentar</button>
+      </div>
+    } @else if (store.isEmpty()) {
+      <div class="empty-state">
+        <p>Aún no hay publicaciones de otros usuarios.</p>
+        <small>Las nuevas aparecerán aquí en tiempo real.</small>
+      </div>
+    } @else {
+      <div class="feed-list">
+        @for (post of store.posts(); track post.id) {
+          <app-post-card [post]="post" [fresh]="isFresh(post.id)" [now]="now()" />
+        }
+      </div>
+
+      @if (store.hasMore()) {
+        <div class="feed-more" appInfiniteScroll (reached)="loadMore()">
+          <button type="button" class="btn btn--secondary" [disabled]="store.loadingMore()" (click)="loadMore()">
+            {{ store.loadingMore() ? 'Cargando…' : 'Cargar más' }}
+          </button>
+        </div>
+      } @else {
+        <p class="feed-end">No hay más publicaciones</p>
+      }
+
+      @if (store.error()) {
+        <p class="alert alert--error" role="alert">{{ store.error() }}</p>
+      }
+    }
+  </section>
+</div>

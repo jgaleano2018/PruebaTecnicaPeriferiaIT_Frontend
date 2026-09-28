@@ -1,0 +1,76 @@
+.feed-layout {
+  display: grid;
+  gap: 1.25rem;
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 1rem;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 340px 1fr;
+    align-items: start;
+
+    &__side { position: sticky; top: calc(4.5rem + env(safe-area-inset-top)); }
+  }
+
+  &__side { display: grid; gap: 1rem; }
+  &__main { display: grid; gap: 0.75rem; min-width: 0; }
+}
+
+.feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 { margin: 0; font-size: 1.35rem; }
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+
+  &__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--color-muted);
+  }
+
+  &--on { color: var(--color-success); }
+  &--on &__dot { background: var(--color-success); animation: pulse 1.6s infinite; }
+}
+
+.feed-list, .recent { display: grid; gap: 0.75rem; }
+
+.section-title { margin: 0.25rem 0 0; font-size: 0.95rem; color: var(--color-muted); }
+
+.feed-more { display: grid; place-items: center; padding: 0.5rem; }
+
+.feed-end { text-align: center; color: var(--color-muted); font-size: 0.85rem; }
+
+.empty-state {
+  display: grid;
+  gap: 0.5rem;
+  place-items: center;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.skeletons { display: grid; gap: 0.75rem; }
+
+.skeleton {
+  height: 5.5rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, var(--color-border) 25%, var(--color-surface) 50%, var(--color-border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+@keyframes pulse { 50% { opacity: 0.35; } }

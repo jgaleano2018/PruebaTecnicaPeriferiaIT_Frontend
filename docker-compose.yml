@@ -1,0 +1,19 @@
+# Frontend Angular servido por Nginx.
+#   docker compose up -d --build        → http://localhost:4200
+# El navegador llama directamente al API Gateway (API_BASE_URL), por defecto http://localhost:8080,
+# levantado con el docker-compose del repositorio backend.
+name: periferia-social-frontend
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        APP_ENV: ${APP_ENV:-production}
+        API_BASE_URL: ${API_BASE_URL:-}
+        WS_BASE_URL: ${WS_BASE_URL:-}
+    image: periferia-social/frontend:1.0.0
+    container_name: social-frontend
+    ports:
+      - "${FRONTEND_PORT:-4200}:80"
+    restart: unless-stopped

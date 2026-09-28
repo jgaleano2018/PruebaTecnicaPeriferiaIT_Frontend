@@ -1,0 +1,34 @@
+<form class="composer" [formGroup]="form" (ngSubmit)="submit()" aria-label="Crear publicación">
+  <label class="field">
+    <span class="field__label">¿Qué quieres compartir?</span>
+    <textarea
+      [formControl]="message"
+      rows="3"
+      placeholder="Escribe tu mensaje…"
+      [attr.aria-invalid]="overLimit()"
+      aria-describedby="composer-counter"
+      (keydown.control.enter)="submit()"
+      (keydown.meta.enter)="submit()"
+    ></textarea>
+  </label>
+
+  <div class="composer__meta">
+    <div class="composer__date">
+      <span class="field__label">Fecha de publicación</span>
+      <output class="composer__date-value">{{ now() | date: 'dd/MM/yyyy HH:mm' }}</output>
+      <small class="composer__hint">Se asigna automáticamente al guardar</small>
+    </div>
+    <span id="composer-counter" class="composer__counter" [class.composer__counter--danger]="overLimit()"
+          [class.composer__counter--warn]="remaining() <= 20 && !overLimit()">
+      {{ remaining() }}
+    </span>
+  </div>
+
+  <button type="submit" class="btn btn--primary btn--block" [disabled]="!canPublish()">
+    @if (publishing()) {
+      <span class="spinner" aria-hidden="true"></span> Publicando…
+    } @else {
+      Publicar
+    }
+  </button>
+</form>

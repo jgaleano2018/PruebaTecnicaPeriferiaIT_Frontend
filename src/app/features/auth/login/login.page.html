@@ -1,0 +1,61 @@
+<main class="login">
+  <section class="login__card" aria-labelledby="login-title">
+    <header class="login__header">
+      <div class="login__logo" aria-hidden="true">◎</div>
+      <h1 id="login-title">{{ appName }}</h1>
+      <p class="login__subtitle">Inicia sesión para ver lo que comparten los demás</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="login__form">
+      <label class="field">
+        <span class="field__label">Usuario</span>
+        <input
+          type="text"
+          formControlName="username"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="alice"
+          [attr.aria-invalid]="hasError('username')"
+        />
+        @if (hasError('username')) {
+          <span class="field__error">El usuario es obligatorio</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field__label">Clave</span>
+        <div class="field__password">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+            [attr.aria-invalid]="hasError('password')"
+          />
+          <button type="button" class="field__toggle" (click)="togglePassword()"
+                  [attr.aria-label]="showPassword() ? 'Ocultar clave' : 'Mostrar clave'">
+            {{ showPassword() ? 'Ocultar' : 'Ver' }}
+          </button>
+        </div>
+        @if (hasError('password')) {
+          <span class="field__error">La clave es obligatoria</span>
+        }
+      </label>
+
+      @if (auth.error(); as error) {
+        <p class="alert alert--error" role="alert">{{ error }}</p>
+      }
+
+      <button type="submit" class="btn btn--primary btn--block" [disabled]="!canSubmit()">
+        @if (auth.isLoading()) {
+          <span class="spinner" aria-hidden="true"></span> Ingresando…
+        } @else {
+          Ingresar
+        }
+      </button>
+    </form>
+
+    <p class="login__hint">Usuarios de prueba: <code>alice</code>, <code>bob</code>, <code>carol</code>, <code>david</code></p>
+  </section>
+</main>

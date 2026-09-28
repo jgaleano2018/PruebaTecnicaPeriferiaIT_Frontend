@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Solo para builds DEBUG: permite HTTP en claro hacia el backend local (10.0.2.2 / IP LAN).
+     Los builds release usan únicamente el manifiesto principal, que no lo permite. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:usesCleartextTraffic="true" />
+</manifest>
