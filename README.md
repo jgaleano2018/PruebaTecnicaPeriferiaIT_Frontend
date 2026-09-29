@@ -1,6 +1,6 @@
 # Red Social — Frontend (Angular 21 + Capacitor)
 
-Aplicación web y móvil de la red social: inicio de sesión, listado en tiempo real de las publicaciones de los demás usuarios y creación de publicaciones.
+Aplicación web y móvil de la prueba técnica de la red social (Periferia social dev): inicio de sesión, listado en tiempo real de las publicaciones de los demás usuarios y creación de publicaciones.
 Un único código Angular se ejecuta en el navegador y se empaqueta como app **Android/iOS con Capacitor**.
 
 > Backend (microservicios Spring Boot): [PruebaTecnicaPeriferiaIT_Backend](https://github.com/jgaleano2018/PruebaTecnicaPeriferiaIT_Backend)
@@ -112,6 +112,10 @@ src/app
 ├── layout/shell/               # Barra superior de las vistas autenticadas
 └── shared/                     # Pipe relativeTime, directiva de scroll infinito, toasts
 ```
+
+### Diagrama de arquitectura
+
+![alt text](image.png)
 
 ### Integración con el backend
 
