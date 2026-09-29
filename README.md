@@ -51,9 +51,10 @@ Angular no lee `.env` de forma nativa, así que `scripts/set-env.mjs` genera `sr
 | `.env.production` | Build productivo / Docker |
 | `.env.mobile` | Capacitor (emulador Android: `10.0.2.2`; dispositivo físico: IP LAN del equipo) |
 | `.env.example` | Plantilla documentada de todas las variables |
+| `.env.local` (opcional, no versionado) | Ajustes de su máquina; sobrescribe al ambiente (p. ej. otro puerto del gateway) |
 | `.env` (opcional, no versionado) | Valores locales compartidos |
 
-Prioridad: **variables del proceso** (p. ej. build args de Docker/CI) > `.env.<ambiente>` > `.env`.
+Prioridad: **variables del proceso** (p. ej. build args de Docker/CI) > `.env.local` > `.env.<ambiente>` > `.env`.
 
 | Variable | Descripción |
 |---|---|

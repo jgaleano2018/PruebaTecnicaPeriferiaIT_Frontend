@@ -6,7 +6,7 @@
  *   node scripts/set-env.mjs mobile        -> lee .env.mobile (emulador/dispositivo Capacitor)
  *
  * Prioridad (de mayor a menor): variables de entorno del proceso (útil en Docker/CI con
- * build args) > .env.<ambiente> > .env (valores locales compartidos, no versionado).
+ * build args) > .env.local (ajustes de su máquina, no versionado) > .env.<ambiente> > .env.
  * El archivo generado NO se versiona.
  */
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
@@ -28,7 +28,7 @@ if (!existsSync(resolve(root, envFile))) {
   process.exit(1);
 }
 
-const merged = { ...fromFile('.env'), ...fromFile(envFile) };
+const merged = { ...fromFile('.env'), ...fromFile(envFile), ...fromFile('.env.local') };
 const read = (key, fallback) => process.env[key] ?? merged[key] ?? fallback;
 
 const required = (key) => {

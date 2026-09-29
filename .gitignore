@@ -48,6 +48,7 @@ Thumbs.db
 
 # Valores locales (no versionar)
 .env
+.env.local
 
 # Capacitor
 /android/app/build
