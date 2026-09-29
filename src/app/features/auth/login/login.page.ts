@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { map, startWith } from 'rxjs';
 import { APP_CONFIG } from '../../../core/config/app-config';
 import { AuthStore } from '../../../state/auth.store';
 
@@ -22,16 +21,12 @@ export class LoginPage {
     password: ['', [Validators.required, Validators.maxLength(100)]],
   });
 
-  /** Estado del formulario como signal (programación reactiva en la plantilla). */
-  private readonly formValid = toSignal(
-    this.form.statusChanges.pipe(
-      startWith(this.form.status),
-      map((status) => status === 'VALID'),
-    ),
-    { initialValue: false },
-  );
-
-  protected readonly canSubmit = computed(() => this.formValid() && !this.auth.isLoading());
+  /**
+   * El botón solo se bloquea mientras hay una petición en curso. No se deshabilita por
+   * formulario inválido porque el autocompletado del navegador (p. ej. Chrome) llena los
+   * campos sin notificar a Angular hasta la primera interacción; la validación se hace al enviar.
+   */
+  protected readonly canSubmit = computed(() => !this.auth.isLoading());
 
   constructor() {
     // Al editar, se limpia el error anterior de credenciales.
